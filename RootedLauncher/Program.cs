@@ -9,7 +9,7 @@ using System.IO;
 // ============================================================================
 // Helper Methods
 // ============================================================================
-
+//test
 static string CensorAccessToken(string token)
 {
     return string.IsNullOrEmpty(token) ? token : "[CENSORED]";
