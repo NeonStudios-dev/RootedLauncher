@@ -199,7 +199,7 @@ namespace RootedLauncher.services
         private async Task<MSession> AuthenticateWithDeviceCode(IXboxGameAccount account)
         {
             // Device Code authentication - works everywhere, especially good for SSH
-            Console.WriteLine("\n=== Device Code Authentication ===");
+           // Console.WriteLine("\n=== Device Code Authentication ===");
             var app = await MsalClientHelper.BuildApplicationWithCache("499c8d36-be2a-4231-9ebd-ef291b7bb64c");
             var authenticator = _loginHandler.CreateAuthenticatorWithNewAccount();
 
@@ -270,7 +270,7 @@ namespace RootedLauncher.services
 
         public async Task RemoveAccountAsync()
         {
-            Console.WriteLine("\n=== Remove Account ===");
+          //  Console.WriteLine("\n=== Remove Account ===");
             var accounts = _loginHandler.AccountManager.GetAccounts().ToList();
 
             if (accounts.Count == 0)
