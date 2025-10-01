@@ -130,7 +130,6 @@ else
 Console.WriteLine($"\nAuthentication successful!");
 Console.WriteLine($"Welcome, {session.Username}");
 Console.WriteLine($"UUID: {session.UUID}");
-Console.WriteLine($"Access Token: {CensorAccessToken(session.AccessToken)}\n");
 
 // ============================================================================
 // Setup Game Directory

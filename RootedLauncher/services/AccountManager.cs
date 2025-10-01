@@ -7,6 +7,7 @@ using RootedLauncher.Security;
 
 namespace RootedLauncher.Services
 {
+    
     /// <summary>
     /// Represents a stored Minecraft account with encrypted credentials.
     /// </summary>
@@ -200,10 +201,11 @@ namespace RootedLauncher.Services
         /// <summary>
         /// Sets an account as the default.
         /// </summary>
-        public void SetDefaultAccount(string uuid)
+       public void SetDefaultAccount(string uuid)
         {
+            bool setDFA = false;
             var account = GetAccount(uuid);
-            if (account != null)
+            if (account != null && setDFA == true)
             {
                 foreach (var acc in _accountsData.Accounts)
                     acc.IsDefault = false;

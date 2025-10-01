@@ -37,13 +37,13 @@ namespace RootedLauncher.services
             {
                 try
                 {
-                    /*
+                    
                     // List existing accounts
                     Console.WriteLine("\n=== Microsoft Account Login ===");
                     Console.WriteLine($"Platform: {GetPlatformName()}");
                     Console.WriteLine("\nSelect an account or create new:");
                     Console.WriteLine("[0] New Account (Interactive Login)");
-                    */
+                    
                     var accounts = _loginHandler.AccountManager.GetAccounts().ToList();
                     for (int i = 0; i < accounts.Count; i++)
                     {
