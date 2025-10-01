@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 using XboxAuthNet.Game.Accounts;
 using XboxAuthNet.Game.Msal;
-
 namespace RootedLauncher.services
 {
     public class AuthService
@@ -38,12 +37,13 @@ namespace RootedLauncher.services
             {
                 try
                 {
+                    /*
                     // List existing accounts
                     Console.WriteLine("\n=== Microsoft Account Login ===");
                     Console.WriteLine($"Platform: {GetPlatformName()}");
                     Console.WriteLine("\nSelect an account or create new:");
                     Console.WriteLine("[0] New Account (Interactive Login)");
-                    
+                    */
                     var accounts = _loginHandler.AccountManager.GetAccounts().ToList();
                     for (int i = 0; i < accounts.Count; i++)
                     {
@@ -89,7 +89,7 @@ namespace RootedLauncher.services
                         // New account
                         selectedAccount = _loginHandler.AccountManager.NewAccount();
                         Console.WriteLine("\nStarting authentication...");
-                        
+
                         if (_isWindows)
                         {
                             Console.WriteLine("A browser window will open. Please sign in with your Microsoft account.");
@@ -109,7 +109,7 @@ namespace RootedLauncher.services
                         // Existing account
                         selectedAccount = accounts[selection - 1];
                         Console.WriteLine($"\nAuthenticating with existing account...");
-                        
+
                         // Try silent authentication first
                         try
                         {
@@ -120,7 +120,7 @@ namespace RootedLauncher.services
                         {
                             _logger.LogWarning($"Silent authentication failed: {ex.Message}");
                             Console.WriteLine("Session expired. Re-authenticating...");
-                            
+
                             // Fall back to interactive
                             if (_isWindows)
                             {
@@ -153,22 +153,22 @@ namespace RootedLauncher.services
         {
             // Windows-only OAuth with WebView2
             var authenticator = _loginHandler.CreateAuthenticator(account, default);
-            
+
             // Add Microsoft OAuth with Interactive mode (Windows only)
             authenticator.AddMicrosoftOAuthForJE(oauth => oauth.Interactive());
-            
+
             // Add Xbox authentication
             authenticator.AddXboxAuthForJE(xbox => xbox.Basic());
-            
+
             // Add JE (Java Edition) authenticator
             authenticator.AddJEAuthenticator();
 
             // Execute authentication
             var session = await authenticator.ExecuteForLauncherAsync();
-            
+
             Console.WriteLine($"\n✓ Successfully authenticated as: {session.Username}");
             Console.WriteLine($"  UUID: {session.UUID}");
-            
+
             return session;
         }
 
@@ -177,22 +177,22 @@ namespace RootedLauncher.services
             // Cross-platform MSAL authentication
             var app = await MsalClientHelper.BuildApplicationWithCache("499c8d36-be2a-4231-9ebd-ef291b7bb64c");
             var authenticator = _loginHandler.CreateAuthenticatorWithNewAccount();
-            
+
             // Add MSAL OAuth with Interactive mode (cross-platform)
             authenticator.AddMsalOAuth(app, msal => msal.Interactive());
-            
+
             // Add Xbox authentication
             authenticator.AddXboxAuthForJE(xbox => xbox.Basic());
-            
+
             // Add JE (Java Edition) authenticator
             authenticator.AddForceJEAuthenticator();
 
             // Execute authentication
             var session = await authenticator.ExecuteForLauncherAsync();
-            
+
             Console.WriteLine($"\n✓ Successfully authenticated as: {session.Username}");
             Console.WriteLine($"  UUID: {session.UUID}");
-            
+
             return session;
         }
 
@@ -202,7 +202,7 @@ namespace RootedLauncher.services
             Console.WriteLine("\n=== Device Code Authentication ===");
             var app = await MsalClientHelper.BuildApplicationWithCache("499c8d36-be2a-4231-9ebd-ef291b7bb64c");
             var authenticator = _loginHandler.CreateAuthenticatorWithNewAccount();
-            
+
             // Add MSAL OAuth with DeviceCode mode
             authenticator.AddMsalOAuth(app, msal => msal.DeviceCode(code =>
             {
@@ -211,19 +211,19 @@ namespace RootedLauncher.services
                 Console.WriteLine("=".PadRight(60, '=') + "\n");
                 return Task.CompletedTask;
             }));
-            
+
             // Add Xbox authentication
             authenticator.AddXboxAuthForJE(xbox => xbox.Basic());
-            
+
             // Add JE (Java Edition) authenticator
             authenticator.AddJEAuthenticator();
 
             // Execute authentication
             var session = await authenticator.ExecuteForLauncherAsync();
-            
+
             Console.WriteLine($"\n✓ Successfully authenticated as: {session.Username}");
             Console.WriteLine($"  UUID: {session.UUID}");
-            
+
             return session;
         }
 
@@ -236,7 +236,7 @@ namespace RootedLauncher.services
                 authenticator.AddMicrosoftOAuthForJE(oauth => oauth.Silent());
                 authenticator.AddXboxAuthForJE(xbox => xbox.Basic());
                 authenticator.AddJEAuthenticator();
-                
+
                 var session = await authenticator.ExecuteForLauncherAsync();
                 Console.WriteLine($"\n✓ Authenticated as: {session.Username}");
                 return session;
@@ -249,7 +249,7 @@ namespace RootedLauncher.services
                 authenticator.AddMsalOAuth(app, msal => msal.Silent());
                 authenticator.AddXboxAuthForJE(xbox => xbox.Basic());
                 authenticator.AddJEAuthenticator();
-                
+
                 var session = await authenticator.ExecuteForLauncherAsync();
                 Console.WriteLine($"\n✓ Authenticated as: {session.Username}");
                 return session;
@@ -272,7 +272,7 @@ namespace RootedLauncher.services
         {
             Console.WriteLine("\n=== Remove Account ===");
             var accounts = _loginHandler.AccountManager.GetAccounts().ToList();
-            
+
             if (accounts.Count == 0)
             {
                 Console.WriteLine("No accounts to remove.");
@@ -293,7 +293,7 @@ namespace RootedLauncher.services
             }
 
             Console.Write("\nSelect account number to remove (0 to cancel): ");
-            if (int.TryParse(Console.ReadLine(), out int selection) && 
+            if (int.TryParse(Console.ReadLine(), out int selection) &&
                 selection > 0 && selection <= accounts.Count)
             {
                 await _loginHandler.Signout(accounts[selection - 1]);

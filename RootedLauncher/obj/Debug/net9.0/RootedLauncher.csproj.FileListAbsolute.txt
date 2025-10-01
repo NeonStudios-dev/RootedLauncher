@@ -39,3 +39,4 @@
 /home/flamegrowl/Desktop/projects/RootedLauncher/RootedLauncher/obj/Debug/net9.0/RootedLauncher.pdb
 /home/flamegrowl/Desktop/projects/RootedLauncher/RootedLauncher/obj/Debug/net9.0/RootedLauncher.genruntimeconfig.cache
 /home/flamegrowl/Desktop/projects/RootedLauncher/RootedLauncher/obj/Debug/net9.0/ref/RootedLauncher.dll
+/home/flamegrowl/Desktop/projects/RootedLauncher/RootedLauncher/obj/Debug/net9.0/RootedLauncher.sourcelink.json
